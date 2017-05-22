@@ -23,7 +23,7 @@ class StreamListener(tweepy.StreamListener):
             print "Current tweet: %(tweet)s" % {'tweet': tweet}
             print "Favorited yet: No, needs a meme\n"
             m = scramble(s)
-            api.update_with_media("spongebobicon.jpg", m, s.id)
+            api.update_with_media("spongebobicon.jpg", m, in_reply_to_status_id = s.id_str)
             api.create_favorite(s.id_str)
             print "Meme given. \n"
             time.sleep(1)
