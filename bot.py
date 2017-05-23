@@ -19,17 +19,16 @@ class StreamListener(tweepy.StreamListener):
     def on_status(self, s):
         print(s.text)
         tweet = s.text[16:]
+        userHandle = "@" + s.user.screen_name
         if s.favorite_count == 0:
-            print "Current tweet: %(tweet)s" % {'tweet': tweet}
-            print "Favorited yet: No, needs a meme\n"
+            print "Current tweet: \"%(tweet)s\" by user %(userHandle)\n" % {'tweet': tweet, 'userHandle' : userHandle}
             m = scramble(s)
             api.update_with_media("spongebobicon.jpg", m, in_reply_to_status_id = s.id_str)
-            #api.create_favorite(s.id_str)
             print "Meme given. \n"
             time.sleep(1)
         else:
-            print "Current tweet: %(tweet)s" % {'tweet': tweet}
-            print "Favorited yet: Yes, meme has already been given\n"
+            print "Current tweet: \"%(tweet)s\" by user %(userHandle)\n" % {'tweet': tweet, 'userHandle' : userHandle}
+            print "Meme already given, skipping over this tweet.\n"
             time.sleep(1)
 
     def on_error(self, status_code):
@@ -57,5 +56,3 @@ print "Bot started up.\n"
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth = api.auth, listener=stream_listener)
 stream.filter(track=['@clapbacksponge'])
-print "Searching for new tweet..."
-time.sleep(1)
